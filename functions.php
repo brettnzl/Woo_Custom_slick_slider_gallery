@@ -29,8 +29,7 @@ function custom_gallery() {
 					foreach ( $variations as $variation ) {
 						$all_ids[] = $variation['image_id'];
 					}
-				}
-				
+				}				
 				
 				if (!empty($all_ids)) {
 					$add_list = array();
@@ -42,38 +41,38 @@ function custom_gallery() {
 							continue;
 						}
 						$add_list[] = $image_link;
-
 						?>
 						<!-- <a href="<?php echo $image_link; ?>" data-lightbox="woo-gallery"> -->
-							<div class="gallery-image"><img src="<?php echo $image_link; ?>" alt="woo-gallery-image" class="w-100 img-fluid"></div>
+							<div class="gallery-image" data-thumbnail-id="<?php echo $attachment_id; ?>"><img src="<?php echo $image_link; ?>" alt="woo-gallery-image" class="w-100 img-fluid"></div>
 						<!-- </a> -->
 						<?php 
 					}
 				}
 			echo "</div>";
-			echo "<div class='nav-list'>";
-				
-				$add_list = array();
-				if (!empty($all_ids)) {
-					foreach( $all_ids as $attachment_id ) {
-						$image_link = wp_get_attachment_url( $attachment_id, 'thumbnail' );
-						
-						//prevent duplicate images:
-						if (in_array($image_link, $add_list)) {
-							continue;
+			if (!empty($all_ids) && sizeof($add_list) > 1 ) {
+				echo "<div class='nav-list'>";
+					$add_list = array();
+						foreach( $all_ids as $attachment_id ) {
+							$image_link = wp_get_attachment_url( $attachment_id, 'thumbnail' );
+							
+							//prevent duplicate images:
+							if (in_array($image_link, $add_list)) {
+								continue;
+							}
+							$add_list[] = $image_link;
+							?>
+
+							<div class="thumbnail-image" data-thumbnail-id="<?php echo $attachment_id; ?>"><img src="<?php echo $image_link; ?>" alt="woo-gallery-image" class="w-100 img-fluid"></div>
+							<?php 
 						}
-						$add_list[] = $image_link;
-						
-						?>
-						<div class="thumbnail-image"><img src="<?php echo $image_link; ?>" alt="woo-gallery-image" class="w-100 img-fluid"></div>
-						<?php 
-					}
-				}
-			echo "</div>";
+				echo "</div>";
+			}
 		echo "</div>";
 		?>
 		<script>
 			jQuery(window).ready(function(){
+				
+				// Activate the Slider
 				jQuery('#woo-gallery-nb .gallery-list').slick({
 					slidesToShow: 1,
 					slidesToScroll: 1,
@@ -99,7 +98,16 @@ function custom_gallery() {
 						}
 					}]
 				});
-			})				
+
+				//Variation Image Swapping
+				jQuery('.variations_form').on('change',function(){
+					var variation_form_current_image = jQuery('.variations_form.cart').attr('current-image');
+					if ( variation_form_current_image !== "" ) {
+						//forces a click on the thumbnail with the ID, which will cause it to change.
+						jQuery('.thumbnail-image[data-thumbnail-id='+variation_form_current_image+']').click();
+					}
+				});
+			})		
 		</script>
 		<?php 
 
@@ -107,4 +115,3 @@ function custom_gallery() {
 		do_action( 'woocommerce_before_single_product_summary' );
 	}
 }
-?>
