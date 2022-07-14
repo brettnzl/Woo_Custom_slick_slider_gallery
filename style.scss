@@ -1,10 +1,15 @@
 
 // nbslider styling
-#woo-gallery-em {
-    background: whitesmoke;
- 
+#woo-gallery-nb {
+    
     .gallery-list {
         border: 5px solid whitesmoke;
+        background: whitesmoke;
+        position: relative;
+        height: 550px;
+        width: 100%;
+        overflow: hidden;
+        
         .slick-list {
             img {
                 width: 100%;
@@ -16,20 +21,77 @@
 
     .nav-list {
         border-top: 1px solid lightgrey;
-        
+        background: white;
+        position: relative;
+        width: 100%;
+        height: 170px;
+        overflow: hidden;
+
+        .slick-list {
+            width: 100%;
+            background: whitesmoke;
+
+            .slick-track{ 
+                width: 100%;;
+            }
+        }
+
+        .thumbnail-image {
+            border: 5px solid whitesmoke;
+            cursor: pointer;
+            img {
+                height: 130px;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 35px;
+            width: 35px;
+            font-size: 0;
+            border: none;
+            z-index: 9;
+            background: lightgrey;
+            
+
+            &.slick-next {
+                right: 0;
+                &:before {
+                    content: url('https://api.iconify.design/akar-icons/chevron-right.svg');
+                }
+            }
+
+            &.slick-prev {
+                left: 0;
+                &:before {
+                    content: url('https://api.iconify.design/akar-icons/chevron-left.svg');
+                }
+            }
+        }
+
         .slick-dots {
             padding: 0;
             margin: 0;
             text-align: center;
+            width: 100%;
+            display: block;
+            background: white;
 
             li {
                 display: inline-block;
                 button {
                     font-size: 0;
-                    width: 20px;
-                    height: 20px;
+                    width: 12px;
+                    height: 12px;
                     border-radius: 100%;
-                    background: lightgray;
+                    background: lightgray;    
+                    padding: 0;
+                    border: none;
+                    margin: 5px;
                 }
 
                 &.slick-active {
