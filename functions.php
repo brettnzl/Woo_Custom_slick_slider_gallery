@@ -1,4 +1,5 @@
 <?php 
+
 add_action('nb_woocommerce_product_gallery', 'custom_gallery');
 function custom_gallery() {
 	if (isset($_GET['brett'])) {
@@ -70,6 +71,7 @@ function custom_gallery() {
 		echo "</div>";
 		?>
 		<script>
+
 			jQuery(window).ready(function(){
 				
 				// Activate the Slider
@@ -99,13 +101,11 @@ function custom_gallery() {
 					}]
 				});
 
+
 				//Variation Image Swapping
-				jQuery('.variations_form').on('change',function(){
-					var variation_form_current_image = jQuery('.variations_form.cart').attr('current-image');
-					if ( variation_form_current_image !== "" ) {
-						//forces a click on the thumbnail with the ID, which will cause it to change.
-						jQuery('.thumbnail-image[data-thumbnail-id='+variation_form_current_image+']').click();
-					}
+				jQuery(document).on('found_variation', function(e, a) {
+					console.log(a.image_id);
+					jQuery('.thumbnail-image[data-thumbnail-id='+a.image_id+']').click();
 				});
 			})		
 		</script>
