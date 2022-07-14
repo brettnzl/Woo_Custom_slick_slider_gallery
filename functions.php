@@ -1,8 +1,7 @@
 <?php 
-
 add_action('nb_woocommerce_product_gallery', 'custom_gallery');
 function custom_gallery() {
-	if (isset($_GET['brett'])) {
+	// if (isset($_GET['brett'])) {
 		
 		// Enqueue Required scripts & Styles
 		// wp_enqueue_script( 'lightbox', 'https://cdn.jsdelivr.net/npm/bs5-lightbox@1.7.8/dist/index.bundle.min.js'); // Lightbox/modelbox
@@ -18,19 +17,24 @@ function custom_gallery() {
 				$main_id = get_post_thumbnail_id( $product->get_ID() );
 				$gallery_ids = $product->get_gallery_image_ids();
 
-				// Get Variation images
-				$variations = $product->get_available_variations();
-				
+
 				// Merge the ID's
 				$all_ids = array();
 				$all_ids[] = $main_id;
 				$all_ids = array_merge($all_ids, $gallery_ids);
 
-				if (!empty($variations)) {
-					foreach ( $variations as $variation ) {
-						$all_ids[] = $variation['image_id'];
-					}
-				}				
+				// Get Variation images
+				if ($product->is_type( 'variable' )) {
+					$variations = $product->get_available_variations();
+					
+					if (!empty($variations)) {
+						foreach ( $variations as $variation ) {
+							$all_ids[] = $variation['image_id'];
+						}
+					}				
+				} else {
+					$variations = array();
+				}
 				
 				if (!empty($all_ids)) {
 					$add_list = array();
@@ -111,7 +115,7 @@ function custom_gallery() {
 		</script>
 		<?php 
 
-	} else {
-		do_action( 'woocommerce_before_single_product_summary' );
-	}
+	// } else {
+	// 	do_action( 'woocommerce_before_single_product_summary' );
+	// }
 }
